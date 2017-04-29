@@ -1,2 +1,2 @@
 # OptionsFileLib
-A small utility library for easily generating options files
+A small Java 8 utility library for easily generating options files
