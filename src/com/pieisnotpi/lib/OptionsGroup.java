@@ -1,14 +1,13 @@
 package com.pieisnotpi.lib;
 
-import com.pieisnotpi.lib.types.GenericOption;
-
+import java.io.PrintWriter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 class OptionsGroup
 {
     public String name;
-    public Map<String, GenericOption> options = new LinkedHashMap<>();
+    private Map<String, GenericOption> options = new LinkedHashMap<>();
 
     public OptionsGroup(String name)
     {
@@ -23,5 +22,20 @@ class OptionsGroup
     public GenericOption getOption(String name)
     {
         return options.get(name);
+    }
+    
+    public void reset()
+    {
+        options.forEach((s, opt) -> opt.reset());
+    }
+    
+    void write(PrintWriter writer)
+    {
+        boolean hasUnhidden = false;
+        for(GenericOption opt : options.values()) if(!opt.isHidden()) { hasUnhidden = true; break; }
+        if(!hasUnhidden) return;
+    
+        writer.println("-" + name);
+        options.forEach((on, o) -> o.write(writer));
     }
 }

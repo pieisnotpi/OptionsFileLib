@@ -1,12 +1,24 @@
 package com.pieisnotpi.lib.types;
 
+import com.pieisnotpi.lib.GenericOption;
+
 public class CharOption extends GenericOption
 {
     public char defaultValue, value;
 
     public CharOption(String name, char defaultValue)
     {
-        super(name);
+        this(name, defaultValue, null, false);
+    }
+
+    public CharOption(String name, char defaultValue, String comment)
+    {
+        this(name, defaultValue, comment, false);
+    }
+    
+    public CharOption(String name, char defaultValue, String comment, boolean hidden)
+    {
+        super(name, comment, hidden);
         this.defaultValue = defaultValue;
         this.value = defaultValue;
     }
@@ -19,24 +31,11 @@ public class CharOption extends GenericOption
     }
 
     @Override
-    public void reset()
-    {
-        value = defaultValue;
-    }
+    public void reset() { value = defaultValue; }
 
     @Override
-    public String getWrittenValue()
-    {
-        return Character.toString(value);
-    }
+    public String getWrittenValue() { return Character.toString(value); }
 
-    public char getValue()
-    {
-        return value;
-    }
-
-    public char getDefaultValue()
-    {
-        return defaultValue;
-    }
+    public char getValue() { return value; }
+    public char getDefaultValue() { return defaultValue; }
 }

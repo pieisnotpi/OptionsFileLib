@@ -1,20 +1,26 @@
 package com.pieisnotpi.lib.types;
 
+import com.pieisnotpi.lib.GenericOption;
+
 public class ShortOption extends GenericOption
 {
     public short defaultValue, value;
 
     public ShortOption(String name, short defaultValue)
     {
-        super(name);
-        this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this(name, defaultValue, null, false);
     }
 
-    @Override
-    public void reset()
+    public ShortOption(String name, short defaultValue, String comment)
     {
-        value = defaultValue;
+        this(name, defaultValue, comment, false);
+    }
+    
+    public ShortOption(String name, short defaultValue, String comment, boolean hidden)
+    {
+        super(name, comment, hidden);
+        this.defaultValue = defaultValue;
+        this.value = defaultValue;
     }
 
     @Override
@@ -23,20 +29,13 @@ public class ShortOption extends GenericOption
         try { value = Short.parseShort(unparsed); }
         catch(NumberFormatException e) { value = defaultValue; }
     }
+    
+    @Override
+    public void reset() { value = defaultValue; }
 
     @Override
-    public String getWrittenValue()
-    {
-        return Short.toString(value);
-    }
+    public String getWrittenValue() { return Short.toString(value); }
 
-    public short getValue()
-    {
-        return value;
-    }
-
-    public short getDefaultValue()
-    {
-        return defaultValue;
-    }
+    public short getValue() { return value; }
+    public short getDefaultValue() { return defaultValue; }
 }

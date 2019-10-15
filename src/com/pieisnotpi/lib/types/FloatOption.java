@@ -1,20 +1,26 @@
 package com.pieisnotpi.lib.types;
 
+import com.pieisnotpi.lib.GenericOption;
+
 public class FloatOption extends GenericOption
 {
     private float defaultValue, value;
 
     public FloatOption(String name, float defaultValue)
     {
-        super(name);
-        this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this(name, defaultValue, null, false);
     }
 
-    @Override
-    public void reset()
+    public FloatOption(String name, float defaultValue, String comment)
     {
-        value = defaultValue;
+        this(name, defaultValue, comment, false);
+    }
+    
+    public FloatOption(String name, float defaultValue, String comment, boolean hidden)
+    {
+        super(name, comment, hidden);
+        this.defaultValue = defaultValue;
+        this.value = defaultValue;
     }
 
     @Override
@@ -23,20 +29,13 @@ public class FloatOption extends GenericOption
         try { value = Float.parseFloat(unparsed); }
         catch(NumberFormatException e) { value = defaultValue; }
     }
+    
+    @Override
+    public void reset() { value = defaultValue; }
 
     @Override
-    public String getWrittenValue()
-    {
-        return Float.toString(value);
-    }
+    public String getWrittenValue() { return Float.toString(value); }
 
-    public float getValue()
-    {
-        return value;
-    }
-
-    public float getDefaultValue()
-    {
-        return defaultValue;
-    }
+    public float getValue() { return value; }
+    public float getDefaultValue() { return defaultValue; }
 }

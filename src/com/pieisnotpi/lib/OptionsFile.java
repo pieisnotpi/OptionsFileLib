@@ -53,7 +53,19 @@ public class OptionsFile
         OptionsGroup group = groups.computeIfAbsent(groupName, OptionsGroup::new);
         group.registerOption(option);
     }
-
+    
+    /**
+     * Attempts to retrieve an OptionsGroup from the database
+     * Useful if a particular group is pulled from frequently or needs reset
+     * @param name The name of the group, as created via option registry
+     * @return If found, the registered group. Otherwise, returns null
+     */
+    
+    public OptionsGroup getGroup(String name)
+    {
+        return groups.get(name);
+    }
+    
     /**
      * Attempts to retrieve a generic option in the main group
      * Not intended to be used externally, the type specific getter methods are preferred
@@ -270,7 +282,7 @@ public class OptionsFile
 
     public void reset()
     {
-        groups.forEach((gn, g) -> g.options.forEach((on, o) -> o.reset()));
+        groups.forEach((gn, g) -> g.reset());
     }
 
     /**
@@ -291,9 +303,8 @@ public class OptionsFile
             {
                 String line = scanner.nextLine();
 
-                line = line.replaceAll("\t", "");
-
-                if(line.charAt(0) == '#') continue;
+                line = line.replaceAll("\t", "").trim();
+                if(line.length() == 0 || line.charAt(0) == '#') continue;
                 if(line.charAt(0) == '-') { group = line.substring(1); continue; }
 
                 int colonIndex = line.indexOf(':');
@@ -303,6 +314,7 @@ public class OptionsFile
                 GenericOption option = getOption(group, name);
 
                 if(option == null) continue;
+                if(option.isHidden()) option.setHidden(false);
 
                 option.setFromString(value);
             }
@@ -321,12 +333,8 @@ public class OptionsFile
     {
         try(PrintWriter writer = new PrintWriter(file))
         {
-            groups.forEach((gn, g) ->
-            {
-                if(g.options.size() == 0) return;
-                writer.println("-" + gn);
-                g.options.forEach((on, o) -> writer.println(String.format("\t%s:%s", on, o.getWrittenValue())));
-            });
+            groups.forEach((gn, g) -> g.write(writer));
+            writer.println();
             return true;
         }
         catch(IOException e) { return false; }

@@ -1,12 +1,24 @@
 package com.pieisnotpi.lib.types;
 
+import com.pieisnotpi.lib.GenericOption;
+
 public class StringOption extends GenericOption
 {
     private String defaultValue, value;
-
+    
     public StringOption(String name, String defaultValue)
     {
-        super(name);
+        this(name, defaultValue, null, false);
+    }
+
+    public StringOption(String name, String defaultValue, String comment)
+    {
+        this(name, defaultValue, comment, false);
+    }
+    
+    public StringOption(String name, String defaultValue, String comment, boolean hidden)
+    {
+        super(name, comment, hidden);
         this.defaultValue = defaultValue;
         this.value = defaultValue;
     }
@@ -19,24 +31,11 @@ public class StringOption extends GenericOption
     }
 
     @Override
-    public void reset()
-    {
-        value = defaultValue;
-    }
+    public void reset() { value = defaultValue; }
 
     @Override
-    public String getWrittenValue()
-    {
-        return value;
-    }
+    public String getWrittenValue() { return value; }
 
-    public String getValue()
-    {
-        return value;
-    }
-
-    public String getDefaultValue()
-    {
-        return defaultValue;
-    }
+    public String getValue() { return value; }
+    public String getDefaultValue() { return defaultValue; }
 }

@@ -1,20 +1,26 @@
 package com.pieisnotpi.lib.types;
 
+import com.pieisnotpi.lib.GenericOption;
+
 public class DoubleOption extends GenericOption
 {
     private double defaultValue, value;
 
     public DoubleOption(String name, double defaultValue)
     {
-        super(name);
-        this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this(name, defaultValue, null, false);
     }
 
-    @Override
-    public void reset()
+    public DoubleOption(String name, double defaultValue, String comment)
     {
-        value = defaultValue;
+        this(name, defaultValue, comment, false);
+    }
+
+    public DoubleOption(String name, double defaultValue, String comment, boolean hidden)
+    {
+        super(name, comment, hidden);
+        this.defaultValue = defaultValue;
+        this.value = defaultValue;
     }
 
     @Override
@@ -25,18 +31,11 @@ public class DoubleOption extends GenericOption
     }
 
     @Override
-    public String getWrittenValue()
-    {
-        return Double.toString(value);
-    }
+    public void reset() { value = defaultValue; }
 
-    public double getValue()
-    {
-        return value;
-    }
+    @Override
+    public String getWrittenValue() { return Double.toString(value); }
 
-    public double getDefaultValue()
-    {
-        return defaultValue;
-    }
+    public double getValue() { return value; }
+    public double getDefaultValue() { return defaultValue; }
 }

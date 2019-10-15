@@ -1,20 +1,26 @@
 package com.pieisnotpi.lib.types;
 
+import com.pieisnotpi.lib.GenericOption;
+
 public class LongOption extends GenericOption
 {
     public long defaultValue, value;
 
     public LongOption(String name, long defaultValue)
     {
-        super(name);
-        this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this(name, defaultValue, null, false);
     }
 
-    @Override
-    public void reset()
+    public LongOption(String name, long defaultValue, String comment)
     {
-        value = defaultValue;
+        this(name, defaultValue, comment, false);
+    }
+    
+    public LongOption(String name, long defaultValue, String comment, boolean hidden)
+    {
+        super(name, comment, hidden);
+        this.defaultValue = defaultValue;
+        this.value = defaultValue;
     }
 
     @Override
@@ -23,20 +29,13 @@ public class LongOption extends GenericOption
         try { value = Long.parseLong(unparsed); }
         catch(NumberFormatException e) { value = defaultValue; }
     }
+    
+    @Override
+    public void reset() { value = defaultValue; }
 
     @Override
-    public String getWrittenValue()
-    {
-        return Long.toString(value);
-    }
+    public String getWrittenValue() { return Long.toString(value); }
 
-    public long getValue()
-    {
-        return value;
-    }
-
-    public long getDefaultValue()
-    {
-        return defaultValue;
-    }
+    public long getValue() { return value; }
+    public long getDefaultValue() { return defaultValue; }
 }

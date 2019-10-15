@@ -16,9 +16,13 @@ public class Test
         file.registerOption(new DoubleOption("double_test", 62.1021438214));
         file.registerOption("test_group", new LongOption("long_test", System.currentTimeMillis()));
         file.registerOption("test_group", new ShortOption("shrt_test", (short) 1285));
-        file.registerOption("test_group_2", new CharOption("char_test", '#'));
+        file.registerOption("test_group_2", new CharOption("char_test", '#', "this one has a comment"));
+        file.registerOption("test_group_3", new StringOption("hidden_test", "bloop bloop", "this is invisible", true));
 
         file.readFromFile();
+        
+        System.out.println(file.getStringOption("test_group_3", "hidden_test").getValue());
+        
         file.writeToFile();
     }
 }
